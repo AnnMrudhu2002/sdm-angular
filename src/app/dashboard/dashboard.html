@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <!-- Dashboard Heading -->
+  <h2 class="mb-4 text-dark fw-bold" style="text-align: left;">Welcome, {{this.userName}}!</h2>
+
+  <div class="row g-4 justify-content-start">
+    <!-- Pending Students Card -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card shadow-sm border-0 rounded-3" style="background-color: #e8e1da; cursor: pointer;"
+        routerLink="/admin/registrationRequests">
+        <div class="card-body text-center py-4">
+          <h5 class="card-title fw-semibold text-dark mb-3">Pending Students</h5>
+          <p class="display-5 fw-bold mb-0">{{ pendingStudents }}</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Approved Students Card -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card shadow-sm border-0 rounded-3" style="background-color: #e8e1da;">
+        <div class="card-body text-center py-4">
+          <h5 class="card-title fw-semibold text-dark mb-3">Registered Students</h5>
+          <p class="display-5 fw-bold mb-0">{{ approvedStudents }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

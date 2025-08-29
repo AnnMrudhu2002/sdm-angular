@@ -1,0 +1,136 @@
+<div class="container-fluid register-page">
+  <div class="row min-vh-100">
+
+    <!-- Left Side Content -->
+    <div class="col-md-6 d-none d-md-flex left-side align-items-center justify-content-center p-5">
+      <div class="content text-dark">
+        <h1 class="display-4 fw-bold">Welcome to Student Portal</h1>
+        <p class="lead">
+          Register now to access exclusive features, track your applications, and get updates instantly.
+        </p>
+        <ul>
+          <li>Easy application process</li>
+          <li>Track all your documents</li>
+          <li>Get notifications and alerts</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Side - Registration Form -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center p-5">
+      <div class="card shadow p-4 register-card w-100">
+        <h3 class="text-center mb-4">Student Registration</h3>
+
+        <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
+          <div class="row g-3">
+            <!-- Full Name -->
+            <div class="col-md-6">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input type="text" id="fullName" name="fullName" class="form-control"
+                [(ngModel)]="registerRequest.fullName" #fullName="ngModel"
+                [ngClass]="{ 'is-invalid': fullName.invalid && (fullName.dirty || fullName.touched) }"
+                (keypress)="allowOnlyLettersAndSpace($event)" maxlength="200" required />
+              <div class="text-danger small mt-1" *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)">
+                <span *ngIf="fullName.errors?.['required']">Full Name is required</span>
+              </div>
+            </div>
+
+            <!-- Register Number -->
+            <div class="col-md-6">
+              <label for="registerNo" class="form-label">Register No</label>
+              <input 
+                type="text" 
+                id="registerNo" 
+                name="registerNo" 
+                class="form-control"
+                [(ngModel)]="registerRequest.registerNo" 
+                #registerNo="ngModel"
+                [ngClass]="{ 'is-invalid': registerNo.invalid && (registerNo.dirty || registerNo.touched) }"
+                (keypress)="allowOnlyAlphanumeric($event)" 
+                (input)="convertToUpperCase($event)"
+                maxlength="8"
+                required
+              />
+              <div class="text-danger small mt-1" *ngIf="registerNo.invalid && (registerNo.dirty || registerNo.touched)">
+                <span *ngIf="registerNo.errors?.['required']">Register Number is required</span>
+              </div>
+            </div>
+            
+
+            <!-- Email -->
+            <div class="col-md-12">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" name="email" class="form-control" [(ngModel)]="registerRequest.email"
+                #email="ngModel" [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }" required
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                />
+              <div class="text-danger small mt-1" *ngIf="email.invalid && (email.dirty || email.touched)">
+                <span *ngIf="email.errors?.['required']">Email is required</span>
+                <span *ngIf="email.errors?.['pattern']">Enter a valid email</span>
+                <span *ngIf="email.errors?.['maxlength']">Email cannot exceed 50 characters</span>
+              </div>
+            </div>
+
+            <!-- Password & Confirm Password -->
+            <div class="col-md-6">
+              <label for="password" class="form-label">Password</label>
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                class="form-control"
+                [(ngModel)]="registerRequest.password" 
+                required 
+                minlength="6" 
+                #password="ngModel"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$"
+                maxlength="20"
+                [ngClass]="{ 'is-invalid': password.invalid && (password.dirty || password.touched) }"
+              />
+              <div class="text-danger small mt-1" *ngIf="password.invalid && (password.dirty || password.touched)">
+                <span *ngIf="password.errors?.['required']">Password is required</span>
+                <span *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</span>
+                <span *ngIf="password.errors?.['pattern']">
+                  Password must contain at least 1 uppercase, 1 lowercase, 1 number & 1 special character
+                </span>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+                [(ngModel)]="registerRequest.confirmPassword" #confirmPassword="ngModel" maxlength="20"
+                [ngClass]="{ 'is-invalid': confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched) || (registerRequest.confirmPassword && registerRequest.password !== registerRequest.confirmPassword) }"
+                required />
+              <div class="text-danger small mt-1"
+                *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+                <span *ngIf="confirmPassword.errors?.['required']">Confirm Password is required</span>
+              </div>
+              <div class="text-danger small mt-1"
+                *ngIf="registerRequest.confirmPassword && registerRequest.password !== registerRequest.confirmPassword">
+                Passwords do not match
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn w-100 mt-2"
+            style="background-color: #e59f63; color: #000; border: 1px solid #e6b27f;">
+            Register
+            <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+          </button>
+
+        </form>
+
+        <!-- Link to Login -->
+        <div class="text-center mt-3">
+          <small>
+            Already have an account?
+            <a routerLink="/auth/login" class="text-decoration-none">Login</a>
+          </small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

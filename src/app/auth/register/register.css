@@ -1,0 +1,36 @@
+.register-page {
+    background-color: #FFDAB9; 
+  }
+  
+  .left-side {
+    background-color: #FFDAB9; 
+    text-align: left;
+  }
+  
+  .left-side .content h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .left-side .content p {
+    font-size: 1.2rem;
+  }
+  
+  .left-side .content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    font-size: 1rem;
+  }
+  
+  .register-card {
+    max-width: 450px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: white;
+  }
+  
+
+  .is-invalid {
+    border: 1px solid red !important;
+  }
+  

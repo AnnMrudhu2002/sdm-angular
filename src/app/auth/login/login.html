@@ -1,0 +1,85 @@
+<div class="container-fluid min-vh-100" style="background-color: #FFDAB9;">
+  <div class="row min-vh-100 align-items-center">
+
+    <!-- Left side hardcoded content -->
+    <div class="col-md-6 d-none d-md-flex flex-column justify-content-center p-5">
+      <h1 class="display-4 fw-bold">Welcome Back!</h1>
+      <p class="lead mt-3">Access your student account quickly and securely.</p>
+      <p class="mt-4">Manage your documents, track updates, and stay connected with your institution.</p>
+    </div>
+
+    <!-- Right side login card -->
+    <div class="col-md-6 col-lg-4 d-flex justify-content-end">
+      <div class="card shadow p-4" style="width: 90%; margin-right: -90px;">
+        <h3 class="text-center mb-4">Login</h3>
+
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+          
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              [(ngModel)]="loginRequest.email"
+              required
+              email
+              #email="ngModel"
+            />
+            <div class="text-danger small mt-1" *ngIf="email.invalid && (email.dirty || email.touched)">
+              <span *ngIf="email.errors?.['required']">Email is required</span>
+              <span *ngIf="email.errors?.['email']">Enter a valid email address</span>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3 position-relative">
+            <label for="password" class="form-label">Password</label>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              name="password"
+              class="form-control"
+              [(ngModel)]="loginRequest.password"
+              required
+              minlength="6"
+              #password="ngModel"
+            />
+            <i
+              class="bi"
+              [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+              (click)="togglePassword()"
+              style="position: absolute; top: 38px; right: 10px; cursor: pointer;"
+            ></i>
+            <div class="text-danger small mt-1" *ngIf="password.invalid && (password.dirty || password.touched)">
+              <span *ngIf="password.errors?.['required']">Password is required</span>
+              <span *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</span>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="btn w-100 mt-2"
+            [disabled]="loginForm.invalid || loading"
+            style="background-color: #e59f63; color: #000; border: 1px solid #e6b27f;"
+          >
+            Login
+            <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>
+          </button>
+        </form>
+
+        <!-- Link to Register -->
+        <div class="text-center mt-3">
+          <small>
+            Don't have an account?
+            <a [routerLink]="['/auth/register']" class="text-decoration-none">Register</a>
+          </small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
