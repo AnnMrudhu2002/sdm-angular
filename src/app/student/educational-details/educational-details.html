@@ -1,0 +1,69 @@
+<div class="container my-4">
+  <!-- Education Card -->
+  <div class="card profile-card shadow-lg border-0 rounded-4">
+    <div class="card-header text-dark rounded-top-4">
+      <h4 class="m-0">Educational Details</h4>
+    </div>
+
+    <div class="card-body">
+      <!-- 10th Education Form -->
+      <form [formGroup]="educationForm10" class="mb-4 p-3 border rounded shadow-sm bg-light">
+        <h5 class="mb-3">10th Education Details</h5>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Institute Name:</label>
+            <input type="text" formControlName="instituteName" class="form-control shadow-sm rounded-3">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Passing Year:</label>
+            <input type="number" formControlName="passingYear" class="form-control shadow-sm rounded-3">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Marks %:</label>
+            <input type="number" formControlName="marksPercentage" class="form-control shadow-sm rounded-3">
+          </div>
+        </div>
+      </form>
+
+      <!-- 12th Education Form -->
+      <form [formGroup]="educationForm12" class="p-3 border rounded shadow-sm bg-light">
+        <h5 class="mb-3">12th Education Details</h5>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Institute Name:</label>
+            <input type="text" formControlName="instituteName" class="form-control shadow-sm rounded-3">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Passing Year:</label>
+            <input type="number" formControlName="passingYear" class="form-control shadow-sm rounded-3">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Marks %:</label>
+            <input type="number" formControlName="marksPercentage" class="form-control shadow-sm rounded-3">
+          </div>
+        </div>
+      </form>
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-between mt-4">
+        <!-- Back button (left) -->
+        <button type="button" class="btn btn-secondary px-4 shadow-sm" [routerLink]="['/student/profile']">
+          Back
+        </button>
+
+        <!-- Save & Next buttons (right) -->
+        <div class="d-flex gap-2">
+          <button (click)="submitAllEducation()" class="btn btn-success px-4 shadow-sm">
+            Save
+          </button>
+          <button type="button" class="btn btn-primary px-4 shadow-sm" [routerLink]="['/student/uploadDocuments']">
+            Next
+          </button>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container mt-4">
+    <h3 class="mb-4">Upload Required Documents</h3>
+  
+    <form novalidate>
+      <div *ngFor="let cat of [1,2,3]" class="card mb-3 p-3 shadow-sm">
+        
+        <h5 class="card-title">
+          <span *ngIf="cat==1">ID Proof</span>
+          <span *ngIf="cat==2">10th Certificate</span>
+          <span *ngIf="cat==3">12th Certificate</span>
+        </h5>
+  
+        <!-- Add File button -->
+        <label class="btn btn-outline-primary btn-sm mb-2">
+          + Add File
+          <input type="file" (change)="onFileSelected($event, cat)" accept=".pdf,.jpg,.jpeg,.png" hidden>
+        </label>
+  
+        <!-- List of selected files -->
+        <div *ngFor="let fileObj of selectedFiles[cat]; let i = index" class="d-flex align-items-center mb-1">
+          <span class="badge bg-light text-dark me-2">{{ fileObj.fileName }}</span>
+  
+          <button type="button" class="btn btn-sm btn-success me-1"
+            [disabled]="fileObj.uploaded || fileObj.uploading"
+            (click)="uploadSingleFile(cat, fileObj, i)">
+            {{ fileObj.uploading ? 'Uploading...' : (fileObj.uploaded ? 'Uploaded' : 'Upload') }}
+          </button>
+  
+          <button *ngIf="!fileObj.uploaded" type="button" class="btn btn-sm btn-danger" (click)="removeFile(cat, i)">Remove</button>
+        </div>
+  
+        <!-- Show message if no files selected -->
+        <p *ngIf="selectedFiles[cat].length === 0" class="text-muted mt-2">No files selected yet.</p>
+      </div>
+  
+      <div class="text-center">
+        <button type="button" class="btn btn-primary mt-3" (click)="submitAll()">Submit All</button>
+      </div>
+    </form>
+  </div>

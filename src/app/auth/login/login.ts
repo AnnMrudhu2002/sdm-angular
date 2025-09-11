@@ -9,7 +9,7 @@ import { AuthService, LoginRequest } from '../../services/auth-service';
   selector: 'app-login',
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css']
 })
 export class Login {
   loginRequest: LoginRequest = {
@@ -19,6 +19,10 @@ export class Login {
 
   loading: boolean = false;
   showPassword: boolean = false;
+
+  // Max length validations
+  emailMaxLength: number = 50;
+  passwordMaxLength: number = 20;
 
   constructor(
     private authService: AuthService,
@@ -41,22 +45,19 @@ export class Login {
 
         // Store only token
         sessionStorage.setItem('token', res.token || '');
-        // console.log(res.token);
         
         // Decode token using AuthService
         const userName = this.authService.getUserName();
         const userId = this.authService.getUserId();
         const roles = this.authService.getRoles();
 
-        // console.log('Logged in user:', userName, roles);
-
         // Navigate based on role
         if (roles.includes('Admin')) {
           this.toastr.success('Logged in successfully');
           this.router.navigate(['/admin/dashboard']);
-        } 
-        else{
+        } else {
           this.toastr.success('Logged in successfully');
+          this.router.navigate(['/student/profile']);
         }
       },
       error: (err: any) => {
@@ -65,6 +66,5 @@ export class Login {
         this.toastr.error(msg);
       }
     });
-  
   }
 }

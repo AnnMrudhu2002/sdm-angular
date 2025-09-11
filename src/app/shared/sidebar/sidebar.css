@@ -6,14 +6,14 @@
   
  
   .sidebar .nav-link:hover {
-    background-color: #d1b6a2;
+    background-color: #cdcfd0;
     color: #fff;
     text-decoration: none;
   }
   
 
   .sidebar .nav-link.active {
-    background-color: #c79478; 
+    background-color: #cdcfd0; 
     color: #fff;
     font-weight: 600;
   }

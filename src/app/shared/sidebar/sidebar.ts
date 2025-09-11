@@ -10,5 +10,13 @@ import { AuthService } from '../../services/auth-service';
   styleUrl: './sidebar.css'
 })
 export class Sidebar {
+  constructor(private authService: AuthService) {}
 
+  isAdmin(): boolean {
+    return this.authService.getRoles().includes('Admin');
+  }
+
+  isStudent(): boolean {
+    return this.authService.getRoles().includes('Student');
+  }
 }

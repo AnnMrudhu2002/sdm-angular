@@ -2,11 +2,14 @@
     border: 1px solid red !important;
   }
   .register-card {
-    max-width: 450px;   /* fixes width */
+    max-width: 450px;   
     width: 100%;
     border-radius: 10px;
     background-color: white;
-    min-height: 500px;  /* make login same height as register */
+    min-height: 500px;  
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .is-invalid {
+    border: 1px solid red !important;
   }
   

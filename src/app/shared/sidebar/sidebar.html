@@ -1,4 +1,4 @@
-<div class="sidebar text-dark vh-100 p-3" style="width: 250px; background-color: #eedfd1;">
+<!-- <div class="sidebar text-dark vh-100 p-3" style="width: 250px; background-color: #eedfd1;">
     <h5 class="mb-4 text-uppercase">Menu</h5>
     <ul class="nav flex-column">
       <li class="nav-item mb-2">
@@ -11,5 +11,77 @@
           Approve Pending Students
         </a>
       </li>
+
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/student/profile" routerLinkActive="active">
+          Profile
+        </a>
+      </li>
+
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/student/educationalDetails" routerLinkActive="active">
+          Educational Details
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/student/my-documents" routerLinkActive="active">
+         My Documents
+        </a>
+      </li>
     </ul>
+</div> -->
+
+
+
+<div class="sidebar text-dark vh-100 p-3" style="width: 250px; background-color: #d8dfe9;">
+  <h5 class="mb-4 text-uppercase">Menu</h5>
+  <ul class="nav flex-column">
+    
+    <!-- Admin Menu -->
+    <ng-container *ngIf="isAdmin()">
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/admin/dashboard" routerLinkActive="active">
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/admin/registrationRequests" routerLinkActive="active">
+          Approve Pending Students
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/admin/doc-approval" routerLinkActive="active">
+          Approve Docs
+        </a>
+      </li>
+    </ng-container>
+
+    <!-- Student Menu -->
+    <ng-container *ngIf="isStudent()">
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/student/profile" routerLinkActive="active">
+          Profile
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/student/educationalDetails" routerLinkActive="active">
+          Educational Details
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/student/uploadDocuments" routerLinkActive="active">
+          Upload Documents
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" routerLink="/student/my-documents" routerLinkActive="active">
+          My Documents
+        </a>
+      </li>
+
+     
+    </ng-container>
+
+  </ul>
 </div>
+

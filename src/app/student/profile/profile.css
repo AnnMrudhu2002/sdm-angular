@@ -1,0 +1,23 @@
+.profile-card {
+    border-radius: 1rem;
+    background-color: #ffffff;
+  }
+  
+  .profile-card .card-header {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    font-weight: 600;
+    font-family: Arial, "Helvetica Neue", sans-serif;
+  }
+  
+  .profile-card .form-control,
+  .profile-card .form-select {
+    transition: all 0.2s;
+  }
+  
+  .profile-card .form-control:focus,
+  .profile-card .form-select:focus {
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    border-color: #0d6efd;
+  }
+  
