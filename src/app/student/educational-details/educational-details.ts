@@ -55,7 +55,7 @@ export class EducationalDetails {
     this.loadEducation();
   }
 
-  // load saved education
+  //load saved education
   loadEducation() {
     this.educationService.getEducation().subscribe({
       next: (res: StudentEducationDto[]) => {
