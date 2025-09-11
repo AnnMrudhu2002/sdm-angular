@@ -10,6 +10,11 @@ export interface Student {
   registerNo: string;
 }
 
+export interface ApiResponse {
+  success: boolean;
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,10 +28,7 @@ export class StudentService {
     return this.http.get<{ message: string, students: Student[] }>(`${this.baseUrl}/Student/GetPendingStudents`);
   }
 
-
-
-
-  approveRejectStudents(userId: string, isApproved: boolean): Observable<{ message: string }> {
-    return this.http.patch<{ message: string }>(`${this.baseUrl}/Student/ApproveRejectStudents`, { userId, isApproved });   
+  approveRejectStudents(userId: string, isApproved: boolean) {
+    return this.http.patch<ApiResponse>(`${this.baseUrl}/Student/ApproveRejectStudents`, { userId, isApproved });
   }
 }

@@ -1,12 +1,13 @@
-<div class="container-fluid min-vh-100" style="background-color: #FFDAB9;">
+<div class="container-fluid min-vh-100" style="background-color: #7ba7e9;">
   <div class="row min-vh-100 align-items-center">
 
     <!-- Left side hardcoded content -->
-    <div class="col-md-6 d-none d-md-flex flex-column justify-content-center p-5">
+    <div class="col-md-6 d-none d-md-flex flex-column justify-content-center p-5  text-dark">
       <h1 class="display-4 fw-bold">Welcome Back!</h1>
       <p class="lead mt-3">Access your student account quickly and securely.</p>
-      <p class="mt-4">Manage your documents, track updates, and stay connected with your institution.</p>
+      <p class="mt-3">Manage your documents, track updates, and stay connected with your institution.</p>
     </div>
+    
 
     <!-- Right side login card -->
     <div class="col-md-6 col-lg-4 d-flex justify-content-end">
@@ -24,13 +25,17 @@
               name="email"
               class="form-control"
               [(ngModel)]="loginRequest.email"
+              [ngClass]="{ 'is-invalid': email.invalid && (email.dirty || email.touched) }"
+
               required
               email
+              [maxlength]="emailMaxLength"
               #email="ngModel"
             />
             <div class="text-danger small mt-1" *ngIf="email.invalid && (email.dirty || email.touched)">
               <span *ngIf="email.errors?.['required']">Email is required</span>
               <span *ngIf="email.errors?.['email']">Enter a valid email address</span>
+              <span *ngIf="email.errors?.['maxlength']">Email cannot exceed {{emailMaxLength}} characters</span>
             </div>
           </div>
 
@@ -42,9 +47,12 @@
               id="password"
               name="password"
               class="form-control"
+              [ngClass]="{ 'is-invalid': password.invalid && (password.dirty || password.touched) }"
+
               [(ngModel)]="loginRequest.password"
               required
               minlength="6"
+              [maxlength]="passwordMaxLength"
               #password="ngModel"
             />
             <i
@@ -56,6 +64,7 @@
             <div class="text-danger small mt-1" *ngIf="password.invalid && (password.dirty || password.touched)">
               <span *ngIf="password.errors?.['required']">Password is required</span>
               <span *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</span>
+              <span *ngIf="password.errors?.['maxlength']">Password cannot exceed {{passwordMaxLength}} characters</span>
             </div>
           </div>
 
@@ -64,7 +73,7 @@
             type="submit"
             class="btn w-100 mt-2"
             [disabled]="loginForm.invalid || loading"
-            style="background-color: #e59f63; color: #000; border: 1px solid #e6b27f;"
+            style="background-color: #7ba7e9; color: #ffffff; border: 1px solid #7ba7e9;"
           >
             Login
             <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2"></span>

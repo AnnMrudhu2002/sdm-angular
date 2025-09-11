@@ -1,40 +1,39 @@
 <div class="container mt-4">
 
   <ng-container *ngIf="students && students.length > 0; else noStudents">
-    <div class="row g-4">
-
-      <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let s of students">
-        <div class="card border-0 shadow-sm rounded-3 h-100 hover-card">
-          <div class="card-body d-flex flex-column">
-
-            <!-- Student Info -->
-            <h5 class="card-title fw-semibold text-dark mb-2">
-              {{ s.fullName }}
-            </h5>
-            <p class="text-muted mb-1">
-              <strong>Email:</strong> {{ s.email }}
-            </p>
-            <p class="text-muted mb-3">
-              <strong>Register No:</strong> {{ s.registerNo }}
-            </p>
-
-            <!-- Actions -->
-            <div class="mt-auto d-flex flex-wrap">
-              <button class="btn btn-outline-success btn-sm me-2 mb-2 px-3" 
+    
+    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+      <table class="table table-hover table-bordered align-middle">
+        <thead class="table-light position-sticky top-0" style="z-index: 1;">
+          <tr>
+            <th scope="col">SL.No</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Register No</th>
+            <th scope="col" class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of students; let i = index">
+            <td>{{ i + 1 }}</td> <!-- Serial number -->
+            <td>{{ s.fullName }}</td>
+            <td>{{ s.email }}</td>
+            <td>{{ s.registerNo }}</td>
+            <td class="text-center">
+              <button class="btn btn-outline-success btn-sm me-2 mb-1 px-3"
                       (click)="approveRejectStudent(s.id, true)">
                 Approve
               </button>
-              <button class="btn btn-outline-danger btn-sm mb-2 px-3" 
+              <button class="btn btn-outline-danger btn-sm mb-1 px-3"
                       (click)="approveRejectStudent(s.id, false)">
                 Reject
               </button>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
   </ng-container>
 
   <!-- No Students -->
@@ -43,5 +42,5 @@
       No pending students found
     </div>
   </ng-template>
-  
+
 </div>

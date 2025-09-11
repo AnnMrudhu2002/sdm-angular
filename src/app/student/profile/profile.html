@@ -1,0 +1,144 @@
+<div class="container my-4">
+  <!-- Form Card -->
+  <div class="card profile-card shadow-lg border-0 rounded-4">
+    <div class="card-header  text-dark rounded-top-4">
+      <h4 class="m-0">Your Profile</h4>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="submitProfile()" class="card-body">
+
+      <!-- Row 1: DOB, Gender, Phone, Alternate Phone -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-3">
+          <label class="form-label">DOB:</label>
+          <input type="date" formControlName="dob" class="form-control shadow-sm rounded-3">
+          <div class="text-danger small" *ngIf="profileForm.get('dob')?.touched && profileForm.get('dob')?.invalid">
+            DOB is required
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Gender:</label>
+          <select formControlName="gender" class="form-select shadow-sm rounded-3">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Phone Number:</label>
+          <input type="text" formControlName="phoneNumber" class="form-control shadow-sm rounded-3">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Alternate Phone Number:</label>
+          <input type="text" formControlName="alternatePhoneNumber" class="form-control shadow-sm rounded-3">
+        </div>
+      </div>
+
+      <!-- Row 2: Address, Permanent Address, City, District -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-3">
+          <label class="form-label">Address:</label>
+          <textarea formControlName="address" rows="2" class="form-control shadow-sm rounded-3"></textarea>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Permanent Address:</label>
+          <textarea formControlName="permanentAddress" rows="2" class="form-control shadow-sm rounded-3"></textarea>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">City:</label>
+          <input type="text" formControlName="city" class="form-control shadow-sm rounded-3">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">District:</label>
+          <input type="text" formControlName="district" class="form-control shadow-sm rounded-3">
+        </div>
+      </div>
+
+      <!-- Row 3: State, Pincode, Course, ID Proof Type -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-3">
+          <label class="form-label">State:</label>
+          <input
+            list="statesList"
+            class="form-control shadow-sm rounded-3"
+            placeholder="Select State"
+            formControlName="state">
+        
+          <datalist id="statesList">
+            <option *ngFor="let state of states" [value]="state"></option>
+          </datalist>
+        
+          <div class="text-danger small" *ngIf="profileForm.get('state')?.touched && profileForm.get('state')?.invalid">
+            State is required
+          </div>
+        </div>
+        
+        <div class="mb-3 col-md-3">
+          <label class="form-label">Pincode</label>
+          <input type="text" class="form-control" formControlName="pincode"
+          maxlength="6" placeholder="6-digit pincode"
+          (keypress)="allowOnlyNumbers($event)">
+   
+          <div class="text-danger small" *ngIf="profileForm.get('pincode')?.touched && profileForm.get('pincode')?.invalid">
+            <div *ngIf="profileForm.get('pincode')?.errors?.['required']">Pincode is required</div>
+<div *ngIf="profileForm.get('pincode')?.errors?.['pattern']">Enter a valid 6-digit pincode</div>
+
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Course:</label>
+          <select formControlName="courseId" class="form-select shadow-sm rounded-3">
+            <option value="0">Select</option>
+            <option *ngFor="let course of courses" [value]="course.courseId">
+              {{ course.courseName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">ID Proof Type:</label>
+          <select formControlName="idProofTypeId" class="form-select shadow-sm rounded-3">
+            <option value="0">Select</option>
+            <option *ngFor="let item of idProofTypes" [value]="item.idProofTypeId">
+              {{ item.typeName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Row 4: ID Proof Number -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-3">
+          <label class="form-label">ID Proof Number:</label>
+          <input type="text" formControlName="idProofNumber" class="form-control shadow-sm rounded-3" placeholder="Enter ID Proof Number">
+          
+          <!-- Validation errors -->
+          <div class="text-danger small mt-1" *ngIf="profileForm.get('idProofNumber')?.touched && profileForm.get('idProofNumber')?.invalid">
+            <div *ngIf="profileForm.get('idProofNumber')?.errors?.['required']">
+              ID Proof Number is required
+            </div>
+            <div *ngIf="profileForm.get('idProofNumber')?.errors?.['invalidIdProof']">
+              {{ profileForm.get('idProofNumber')?.errors?.['invalidIdProof'] }}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-end mt-4 gap-2">
+        <button type="submit" class="btn btn-success px-4 shadow-sm">
+          Save
+        </button>
+        <button type="button" class="btn btn-primary px-4 shadow-sm" [routerLink]="['/student/educationalDetails']">
+          Next
+        </button>
+      </div>
+
+      <div class="mt-2 text-success fw-semibold">
+        {{ submissionMessage }}
+      </div>
+
+    </form>
+  </div>
+</div>

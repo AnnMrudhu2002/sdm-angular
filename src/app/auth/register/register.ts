@@ -39,17 +39,17 @@ export class Register {
     const regex = /^[a-zA-Z0-9]*$/;
 
     if (!regex.test(charCode)) {
-      event.preventDefault();  
+      event.preventDefault();
     }
   }
 
   convertToUpperCase(event: Event) {
     const input = event.target as HTMLInputElement;
     input.value = input.value.toUpperCase();
-    this.registerRequest.registerNo = input.value; 
+    this.registerRequest.registerNo = input.value;
   }
 
- 
+
   onSubmit(form: NgForm) {
     if (form.invalid) {
       Object.values(form.controls).forEach(control => {

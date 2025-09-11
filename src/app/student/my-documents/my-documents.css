@@ -1,0 +1,61 @@
+.documents-card {
+    border-radius: 0.75rem;
+    background-color: #ffffff;
+    /* Stronger shadow for visibility */
+    box-shadow: 0 30px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 1rem;
+  }
+  
+  .documents-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Optional: subtle page background to highlight shadow */
+  body, .container {
+    background-color: #f2f3f7;
+  }
+  
+  .documents-card .card-header {
+    font-family: Arial, "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+    font-family: Arial, "Helvetica Neue", sans-serif;
+    font-size: 0.95rem;
+    color: #495057;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f6f6f6;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 0.3em 0.6em;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #495057;
+    background-color: #e9ecef;
+    border-radius: 0.375rem;
+  }
+  
+  .hover-icon {
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+  }
+  
+  .hover-icon:hover {
+    transform: scale(1.2);
+    color: #0d6efd;
+  }
+  
+  .form-control.form-control-sm {
+    border-radius: 0.35rem;
+    font-size: 0.85rem;
+  }
+  

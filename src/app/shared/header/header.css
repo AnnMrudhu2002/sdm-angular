@@ -1,0 +1,12 @@
+.btn-white {
+    background-color: #ced8e9;
+    color: #212529;
+  }
+  .btn-white:hover {
+    background-color: #ffffff; /* light gray on hover */
+  }
+  .admin-header {
+    font-family: Arial, "Helvetica Neue", sans-serif;
+    font-weight: bold;
+  }
+  

@@ -1,0 +1,184 @@
+<!-- <div class="container mt-4">
+    <h3>Students with Pending Documents</h3>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>SL No.</th>
+          <th>Student Name</th>
+          <th>Register No</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ student.fullName }}</td>
+          <td>{{ student.registerNo }}</td>
+          <td>
+            <button class="btn btn-sm btn-info" (click)="viewProfile(student.studentId)">View Profile</button>
+            <button class="btn btn-sm btn-primary" (click)="viewDocuments(student.studentId)">View Documents</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="modal" [class.show]="showDocsModal" style="display: block;" *ngIf="showDocsModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Student Documents</h5>
+          <button type="button" class="btn-close" (click)="closeDocsModal()"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Remarks</th>
+                <th>View</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doc of selectedStudentDocs">
+                <td>{{ doc.documentTypeName }}</td>
+                <td>{{ doc.statusName }}</td>
+                <td>{{ doc.remarks || '-' }}</td>
+                <td>
+                  <button class="btn btn-sm btn-outline-primary" (click)="viewFile(doc.fileUrl)">View</button>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-success" (click)="approve(doc.documentId)">Approve</button>
+                  <button class="btn btn-sm btn-danger" (click)="reject(doc.documentId, 'Rejected by admin')">Reject</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
+          <div *ngIf="selectedFileUrl" class="mt-3">
+            <iframe [src]="selectedFileUrl" width="100%" height="500px"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   -->
+
+   <div class="container mt-4">
+    <div class="card students-card shadow-sm border-0 rounded-3">
+      <div class="card-header bg-light border-bottom rounded-top-3">
+        <h4 class="m-0 text-dark">Pending Document Approvals</h4>
+      </div>
+  
+      <div class="card-body p-3 table-responsive">
+        <div class="table-wrapper">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr class="text-muted small text-uppercase">
+                <th>SL No.</th>
+                <th>Student Name</th>
+                <th>Register No</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of students; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ student.fullName }}</td>
+                <td>{{ student.registerNo }}</td>
+                <td>
+                  <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary hover-btn" (click)="viewProfile(student.studentId)" title="View Profile">
+                      <i class="bi bi-person-circle"></i>
+                    </button>
+  
+                    <button class="btn btn-sm btn-outline-secondary hover-btn" (click)="viewDocuments(student.studentId)" title="View Documents">
+                      <i class="bi bi-folder2-open"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+<!-- Documents Modal -->
+<div class="modal fade show d-flex align-items-center justify-content-center"
+*ngIf="showDocsModal && selectedStudentDocs && selectedStudentDocs.length > 0"
+
+     [class.show]="showDocsModal"
+     style="display: block;">
+  <div class="modal-dialog modal-lg modal-dialog-centered custom-modal" style="width: 711px">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Student Documents</h5>
+        <button type="button" class="btn-close" (click)="closeDocsModal()"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Documents Table -->
+        <table class="table table-hover align-middle mb-3">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Status</th>
+              <th>View</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of selectedStudentDocs">
+              <td>{{ doc.documentTypeName }}</td>
+              <td>{{ doc.statusName }}</td>
+
+              <!-- File Icon -->
+              <td>
+                <i class="bi bi-file-earmark" 
+                   style="cursor: pointer; font-size: 1.6rem; color: rgb(154, 185, 243);" 
+                   (click)="viewFile(doc.fileUrl)" 
+                   title="View File"></i>
+              </td>
+
+              <!-- Approve / Reject Icons -->
+              <td *ngIf="activeRejectId !== doc.documentId">
+                <i class="bi bi-check-square" 
+                   style="cursor: pointer; font-size: 1.6rem; color: rgb(146, 211, 146); margin-right: 10px;" 
+                   (click)="approve(doc.documentId)" 
+                   title="Approve"></i>
+
+                <i class="bi bi-x-square" 
+                   style="cursor: pointer; font-size: 1.6rem; color: rgb(227, 174, 174);" 
+                   (click)="toggleReject(doc.documentId)" 
+                   title="Reject"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Inline Reject Remarks Section -->
+        <div *ngIf="activeRejectId" class="reject-section p-3 mb-3 border rounded bg-light">
+          <label class="fw-semibold">Enter Remarks for Rejection:</label>
+          <textarea class="form-control mb-2" [(ngModel)]="rejectRemarks" rows="3" placeholder="Type remarks here"></textarea>
+          <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-sm btn-secondary" (click)="cancelReject()">Cancel</button>
+            <button class="btn btn-sm btn-danger" (click)="confirmReject(activeRejectId!)">Reject</button>
+          </div>
+        </div>
+
+        <!-- File Preview -->
+        <div *ngIf="selectedFileUrl" class="mt-3">
+          <iframe [src]="selectedFileUrl" width="100%" height="500px"></iframe>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
