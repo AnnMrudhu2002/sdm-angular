@@ -3,6 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environment';
 
+export interface StudentDocumentDto {
+  documentId: number;
+  documentTypeName: string;
+  fileName: string;
+  uploadedOn: string;
+  statusName: string;
+  remarks?: string;
+  documentTypeId: number; // important to categorize
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,9 +36,13 @@ export class DocumentService {
 
   reuploadDocument(documentId: number, file: File): Observable<any> {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', file);  
     return this.http.post(`${this.baseUrl}/Document/reupload/${documentId}`, formData);
   }
- 
+  
+  deleteDocument(documentId: number) {
+    return this.http.delete<{ message: string }>(`${this.baseUrl}/Document/${documentId}`);
+  }
+  
   
 }

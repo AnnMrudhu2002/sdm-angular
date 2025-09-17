@@ -35,14 +35,6 @@ export class AdminService {
       {}
     );
   }
-  
-  // Optional helpers
-  approveDocument(documentId: number): Observable<any> {
-    return this.updateDocumentStatus(documentId, 2, 'Approved');
-  }
-  
-  rejectDocument(documentId: number, remarks: string): Observable<any> {
-    return this.updateDocumentStatus(documentId, 3, remarks);
-  }
+
   
 }

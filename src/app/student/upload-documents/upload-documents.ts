@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ProfileService } from '../../services/profile-service';
+import { DocumentService } from '../../services/document-service';
+import { ProfileService, StudentDocumentDto } from '../../services/profile-service';
 
 interface UploadedFile {
   file?: File;           // optional, only for new uploads
   fileName: string;      // for display
-  documentId?: number;   
+  documentId?: number;
   uploading: boolean;
   uploaded: boolean;
 }
@@ -15,119 +17,141 @@ interface UploadedFile {
 
 @Component({
   selector: 'app-upload-documents',
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './upload-documents.html',
   styleUrl: './upload-documents.css'
 })
 export class UploadDocuments {
- // Map of categoryId -> array of files
- selectedFiles: { [docTypeId: number]: UploadedFile[] } = {
-  1: [], // ID Proof
-  2: [], // 10th Certificate
-  3: []  // 12th Certificate
-};
+  uploadForm!: FormGroup;
+  selectedFile: File | null = null;
+  _fb = inject(FormBuilder)
+  _profileService = inject(ProfileService)
+  //_toastr = inject()
 
-submitted = false;
+  // Dropdown options
+  docTypes = [
+    { id: 1, name: 'ID Proof' },
+    { id: 2, name: '10th Certificate' },
+    { id: 3, name: '12th Certificate' }
+  ];
 
-constructor(private uploadService: ProfileService, private toastr: ToastrService, private router: Router) { }
+  uploadedDocs: StudentDocumentDto[] = [];
 
-ngOnInit() {
-  this.loadUploadedFiles();
-}
+  constructor(
+    private fb: FormBuilder,
+    private profileService: ProfileService,
+    private toastr: ToastrService,
+    private documentService: DocumentService
+  ) { }
 
-loadUploadedFiles() {
-  this.uploadService.getStudentDocuments().subscribe({
-    next: (docs) => {
-      docs.forEach(doc => {
-        let docTypeId = this.getDocTypeId(doc.documentTypeName); // map name -> id
-        if (!this.selectedFiles[docTypeId]) {
-          this.selectedFiles[docTypeId] = [];
+  ngOnInit() {
+    this.uploadForm = this.fb.group({
+      docTypeId: ['', Validators.required],
+      file: [null, Validators.required],
+      isAcknowledged: [false, Validators.requiredTrue]
+    });
+
+    this.loadUploadedFiles();
+  }
+
+  // Check if checkbox is ticked AND 3 documents uploaded
+  canSubmitAcknowledgment(): boolean {
+    return this.uploadForm.get('isAcknowledged')?.value === true && this.uploadedDocs.length >= 3;
+  }
+
+  loadUploadedFiles() {
+    this.profileService.getStudentDocuments().subscribe({
+      next: (docs) => {
+        this.uploadedDocs = docs;
+      },
+      error: (err) => {
+        // Only show toastr for unexpected errors, not for 404 (profile not found)
+        if (err.status !== 404) {
+          this.toastr.error('Failed to load documents');
         }
-        this.selectedFiles[docTypeId].push({
-          fileName: doc.fileName,
-          documentId: doc.documentId,
-          uploaded: true,
-          uploading: false
-        });
-      });
-    },
-    error: (err) => {
-      console.error('Failed to load uploaded files', err);
-    }
-  });
-}
-
-// Helper function
-getDocTypeId(name: string): number {
-  switch(name) {
-    case 'ID Proof': return 1;
-    case '10th Certificate': return 2;
-    case '12th Certificate': return 3;
-    default: return 0;
+        // For 404, just set empty list silently
+        this.uploadedDocs = [];
+      }
+    });
   }
-}
 
-onFileSelected(event: Event, docTypeId: number) {
-  const input = event.target as HTMLInputElement;
-  if (input.files) {
-    for (let i = 0; i < input.files.length; i++) {
-      const file = input.files[i];
-      this.selectedFiles[docTypeId].push({
-        file,
-        fileName: file.name,
-        uploading: false,
-        uploaded: false
-      });
+  triggerFileInput() {
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click(); // opens file picker
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.uploadForm.patchValue({ file: this.selectedFile });
+      this.uploadForm.get('file')?.updateValueAndValidity();
+
+      // Auto-upload as soon as file is selected
+      this.uploadFile();
     }
   }
-}
 
-
-uploadSingleFile(docTypeId: number, fileObj: UploadedFile, index: number) {
-  if (!fileObj.file) return; // safety check
-
-  const formData = new FormData();
-  formData.append('file', fileObj.file);
-  formData.append('documentTypeId', docTypeId.toString());
-
-  fileObj.uploading = true;
-
-  this.uploadService.uploadDocument(formData).subscribe({
-    next: (res) => {
-      fileObj.uploading = false;
-      fileObj.uploaded = true;
-      fileObj.documentId = res.documentId;
-      this.toastr.success(res.message);
-    },
-    error: (err) => {
-      fileObj.uploading = false;
-      const errorMsg = err?.error?.message || "Failed to upload file";
-      this.toastr.error(errorMsg);
-    }
-  });
-}
-
-
-removeFile(docTypeId: number, index: number) {
-  this.selectedFiles[docTypeId].splice(index, 1);
-}
-
-submitAll() {
-  this.submitted = true;
-  const requiredCategories = [1, 2, 3];
-  for (const cat of requiredCategories) {
-    const hasUploaded = this.selectedFiles[cat].some(f => f.uploaded);
-    if (!hasUploaded) {
-      this.toastr.warning("Please upload at least one file for each category");
+  uploadFile() {
+    if (!this.uploadForm.valid || !this.selectedFile) {
+      this.toastr.warning('Please select document type and file');
       return;
     }
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    formData.append('documentTypeId', this.uploadForm.value.docTypeId);
+
+    this.profileService.uploadDocument(formData).subscribe({
+      next: (res) => {
+        this.toastr.success(res.message);
+        this.uploadForm.reset();
+        this.selectedFile = null;
+        this.loadUploadedFiles(); // refresh list
+      },
+      error: (err) => {
+        this.toastr.error(err.error?.message || 'Upload failed');
+      }
+    });
   }
 
-  this.toastr.success('All required files uploaded!');
+  downloadFile(documentId: number) {
+    this.documentService.downloadDocument(documentId).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'document'; // TODO: you can enhance with original file name
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: () => this.toastr.error('Failed to download file')
+    });
+  }
 
-  // Navigate after a small delay to allow the toast to show
-  setTimeout(() => {
-    this.router.navigate(['/student/my-documents']);
-  }, 500);
-}
+  deleteFile(documentId: number) {
+    if (!confirm('Are you sure you want to delete this document?')) return;
+
+    this.documentService.deleteDocument(documentId).subscribe({
+      next: (res) => {
+        this.toastr.success(res.message);
+        this.uploadedDocs = this.uploadedDocs.filter((d) => d.documentId !== documentId);
+      },
+      error: (err) => this.toastr.error(err.error?.message || 'Failed to delete file')
+    });
+  }
+
+
+  submitAcknowledgment() {
+    if (!this.canSubmitAcknowledgment()) return;
+  
+    // this._profileService.submitAcknowledgment().subscribe({
+    //   next: (res) => {
+    //     this.toastr.success(res.message);
+    //   },
+    //   error: (err) => {
+    //     this.toastr.error(err.error?.message || 'Acknowledgment failed');
+    //   }
+    // });
+  }
 }

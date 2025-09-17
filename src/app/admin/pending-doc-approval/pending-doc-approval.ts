@@ -1,74 +1,3 @@
-// import { Component } from '@angular/core';
-// import { CommonModule, NgFor, NgIf } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { AdminService, StudentForApproval } from '../../services/admin-service';
-// import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-
-// import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
-// import { AdminService, StudentForApproval } from "../../services/admin-service";
-
-// @Component({
-//   selector: 'app-pending-doc-approval',
-//   standalone: true,
-//   imports: [CommonModule, NgFor, NgIf, FormsModule],
-//   templateUrl: './pending-doc-approval.html',
-//   styleUrls: ['./pending-doc-approval.css']
-// })
-// export class PendingDocApproval {
-//   students: StudentForApproval[] = [];
-//   selectedStudentDocs: any[] = [];
-//   showDocsModal = false;
-//   selectedFileUrl: SafeResourceUrl | null = null;
-
-//   constructor(private adminService: AdminService, private sanitizer: DomSanitizer) {}
-
-//   ngOnInit(): void {
-//     this.loadPendingStudents();
-//   }
-
-//   loadPendingStudents() {
-//     this.adminService.getPendingStudents().subscribe(res => this.students = res);
-//   }
-
-//   viewProfile(studentId: number) {
-//     // Implement modal or navigation to view student profile
-//     alert('View profile: ' + studentId);
-//   }
-
-//   viewDocuments(studentId: number) {
-//     this.adminService.getStudentDocuments(studentId).subscribe(res => {
-//       this.selectedStudentDocs = res;
-//       this.showDocsModal = true;
-//     });
-//   }
-
-//   viewFile(fileUrl: string) {
-//     this.selectedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrl);
-//   }
-
-//   approve(docId: number) {
-//     this.adminService.approveDocument(docId).subscribe(() => {
-//       alert('Document approved');
-//       this.loadPendingStudents(); // reload
-//       this.selectedStudentDocs = this.selectedStudentDocs.filter(d => d.documentId !== docId);
-//     });
-//   }
-
-//   reject(docId: number, remarks: string) {
-//     this.adminService.rejectDocument(docId, remarks).subscribe(() => {
-//       alert('Document rejected');
-//       this.loadPendingStudents();
-//       this.selectedStudentDocs = this.selectedStudentDocs.filter(d => d.documentId !== docId);
-//     });
-//   }
-
-//   closeDocsModal() {
-//     this.showDocsModal = false;
-//     this.selectedStudentDocs = [];
-//     this.selectedFileUrl = null;
-//   }
-// }
-
 import { Component } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -118,7 +47,7 @@ export class PendingDocApproval {
   }
 
   approve(docId: number) {
-    this.adminService.updateDocumentStatus(docId, 2, 'Approved').subscribe(() => {
+    this.adminService.updateDocumentStatus(docId, 2, 'Approved by admin').subscribe(() => {
       this.toastr.success('Document approved successfully');
       this.loadPendingStudents();
       this.selectedStudentDocs = this.selectedStudentDocs.filter(d => d.documentId !== docId);

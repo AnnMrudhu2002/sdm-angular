@@ -48,6 +48,17 @@ export interface StudentDocumentDto {
 }
 
 
+export interface State {
+  stateId: number;
+  stateName: string;
+}
+
+export interface District {
+  districtId: number;
+  districtName: string;
+  stateId: number;
+}
+
 export interface UploadDocumentResponse {
   message: string;
   documentId: number;
@@ -63,6 +74,39 @@ export interface Course {
   courseId: number;
   courseName: string;
 }
+export interface Course {
+  courseId: number;
+  courseName: string;
+}
+
+export interface Gender {
+  genderId: number;
+  name: string;
+}
+
+export interface State {
+  stateId: number;
+  stateName: string;
+}
+
+export interface District {
+  districtId: number;
+  districtName: string;
+  stateId: number;
+}
+
+export interface Pincode {
+  pincodeId: number;
+  code: string;
+  districtId: number;
+}
+
+export interface PostOffice {
+  officeId: number;
+  officeName: string;
+  pincodeId: number;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -107,8 +151,25 @@ export class ProfileService {
   getCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(`${this.baseUrl}/StudentProfile/Courses`);
   }
-  getStates(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/StudentProfile/States`);
+
+  getGenders(): Observable<Gender[]> {
+    return this.http.get<Gender[]>(`${this.baseUrl}/StudentProfile/Genders`);
+  }
+ 
+
+  getStates(): Observable<State[]> {
+    return this.http.get<State[]>(`${this.baseUrl}/StudentProfile/getAllState`);
+  }
+  getDistrictsByStateId(stateId: number): Observable<District[]> {
+    return this.http.get<District[]>(`${this.baseUrl}/StudentProfile/${stateId}`);
+  }
+  getPincodesByDistrictId(districtId: number): Observable<Pincode[]> {
+    return this.http.get<Pincode[]>(`${this.baseUrl}/StudentProfile/pincodes/${districtId}`);
   }
   
+getPostOffices(pincodeId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/StudentProfile/postoffices/${pincodeId}`);
+}
+
+ 
 }

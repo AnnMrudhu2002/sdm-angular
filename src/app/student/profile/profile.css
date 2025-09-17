@@ -21,3 +21,9 @@
     border-color: #0d6efd;
   }
   
+  textarea {
+    resize: none;
+  }
+
+ 
+  

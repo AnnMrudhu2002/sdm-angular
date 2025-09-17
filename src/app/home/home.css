@@ -22,7 +22,7 @@ html, body {
   
   /* Hero section takes remaining space */
   .hero-section {
-    background-color: #7ba7e9; /* your blue */
+    background-color: #0f2d5f; /* your blue */
     color: white;
     flex-grow: 1;
     display: flex;

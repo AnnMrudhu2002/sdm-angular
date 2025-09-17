@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-start align-items-center bg-light" style="padding-left: 50px;">
+    <div class="card shadow-lg rounded-4" style="width: 800px;">
+      
+      <!-- Card Body -->
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center mb-4">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_lvjjRAVDQ-nBDq_4dy1xCyRjjDaHV-Tqcw&s" 
+               alt="Avatar" class="rounded-circle me-3" width="80" height="80">
+          <div>
+            <h5 class="mb-1">{{ student?.fullName }}</h5>
+            <small class="text-muted">{{ student?.courseName }}</small>
+          </div>
+        </div>
+  
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="border rounded-3 p-2 bg-light">
+              <i class="bi bi-envelope me-2 text-primary"></i> <strong>Email:</strong> {{ student?.email }}
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="border rounded-3 p-2 bg-light">
+              <i class="bi bi-telephone me-2 text-primary"></i> <strong>Phone:</strong> {{ student?.phoneNumber }}
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="border rounded-3 p-2 bg-light">
+              <i class="bi bi-telephone-forward me-2 text-primary"></i> <strong>Alternate Phone:</strong> {{ student?.alternatePhoneNumber }}
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="border rounded-3 p-2 bg-light">
+              <i class="bi bi-calendar-event me-2 text-primary"></i> <strong>DOB:</strong> {{ student?.dob | date:'longDate' }}
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="border rounded-3 p-2 bg-light">
+              <i class="bi bi-gender-ambiguous me-2 text-primary"></i> <strong>Gender:</strong> {{ student?.gender }}
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="border rounded-3 p-2 bg-light">
+              <i class="bi bi-geo-alt me-2 text-primary"></i> <strong>Address:</strong> {{ student?.address }}
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="border rounded-3 p-2 bg-light">
+              <i class="bi bi-house-door me-2 text-primary"></i> <strong>Permanent Address:</strong> {{ student?.permanentAddress }}
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="border rounded-3 p-2 bg-light">
+              <i class="bi bi-card-text me-2 text-primary"></i> <strong>ID Proof:</strong> {{ student?.idProofTypeName }} ({{ student?.idProofNumber }})
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Card Footer -->
+      <div class="card-footer text-end">
+        <a [routerLink]="['/student/profile']" class="btn btn-secondary rounded-pill px-4">Close</a>
+      </div>
+  
+    </div>
+  </div>
+  

@@ -1,0 +1,23 @@
+
+<div>
+    <h2>User Status</h2>
+    
+    @if (isLoggedIn) {
+      <p>Welcome back, user!</p>
+      <button (click)="logout()">Logout</button>
+    }
+  </div>
+
+
+
+  <div>
+    <h2>User Status</h2>
+  
+    <div *ngIf="isLoggedIn">
+      <p>Welcome back, user!</p>
+      <button (click)="logout()">Logout</button>
+    </div>
+  
+   
+  </div>
+  
