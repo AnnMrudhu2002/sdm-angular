@@ -1,7 +1,84 @@
 <div class="container mt-4">
-  <div class="card documents-card shadow-sm border-0 rounded-3">
-    <div class="card-header bg-light border-bottom rounded-top-3">
-      <h4 class="m-0 text-dark">My Documents</h4>
+
+    <!-- No Documents Message -->
+    <div *ngIf="pendingDocs.length === 0 && approvedDocs.length === 0 && rejectedDocs.length === 0" class="alert alert-info text-center">
+      No documents have been uploaded yet.
+    </div>
+  <!-- Pending Documents Table -->
+  <div class="card shadow-sm border-0 rounded-3 mb-4" *ngIf="pendingDocs.length > 0">
+    <div class="card-header border-bottom rounded-top-3" style="background-color: #eef1f6;">
+      <h4 class="m-0 text-dark">Pending Documents</h4>
+    </div>
+
+    <div class="card-body p-3" style="width: 54%;">
+      <div class="table-responsive" style="max-width: 700px;">
+        <table class="table table-borderless table-hover align-middle mb-0">
+          <thead>
+            <tr class="text-muted small text-uppercase">
+              <th>SL No.</th>
+              <th>Document Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of pendingDocs; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ doc.documentTypeName }}</td>
+              <td class="text-warning fw-semibold">{{ doc.statusName }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-success me-2"
+                  (click)="downloadFile(doc.documentId, doc.fileName)">
+                  <i class="bi bi-download"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approved Documents Table -->
+  <div class="card shadow-sm border-0 rounded-3 mb-4" *ngIf="approvedDocs.length > 0">
+    <div class="card-header border-bottom rounded-top-3" style="background-color: #eef1f6;">
+      <h4 class="m-0 text-dark">Approved Documents</h4>
+    </div>
+
+    <div class="card-body p-3" style="width: 55%;">
+      <div class="table-responsive" style="max-width: 700px;">
+        <table class="table table-borderless table-hover align-middle mb-0">
+          <thead>
+            <tr class="text-muted small text-uppercase">
+              <th>SL No.</th>
+              <th>Document Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of approvedDocs; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ doc.documentTypeName }}</td>
+              <td class="text-success fw-semibold">{{ doc.statusName }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-success me-2"
+                  (click)="downloadFile(doc.documentId, doc.fileName)">
+                  <i class="bi bi-download"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Rejected Documents Table -->
+  <div class="card shadow-sm border-0 rounded-3" *ngIf="rejectedDocs.length > 0">
+    <div class="card-header border-bottom rounded-top-3" style="background-color: #eef1f6;">
+      <h4 class="m-0 text-dark">Rejected Documents</h4>
     </div>
 
     <div class="card-body p-3">
@@ -12,42 +89,45 @@
             <th>Document Type</th>
             <th>Status</th>
             <th>Remarks</th>
-            <th>Actions</th>
+            <th>Download</th>
+            <th>Re-Upload</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let doc of documents; let i = index">
+          <tr *ngFor="let doc of rejectedDocs; let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ doc.documentTypeName }}</td>
-            <td>
-              <span class="status-badge">{{ doc.statusName }}</span>
-            </td>
+            <td class="text-danger fw-semibold">{{ doc.statusName }}</td>
+
             <td>{{ doc.remarks || '-' }}</td>
             <td>
-              <div class="d-flex align-items-center gap-2">
-                <!-- View -->
-                <i
-                  class="bi bi-file-earmark-text text-secondary fs-5 hover-icon"
-                  role="button"
-                  title="View File"
-                  (click)="viewFile(doc.documentId, doc.fileName)"
-                ></i>
 
-                <!-- Reupload -->
-                <div *ngIf="doc.showReupload" class="d-flex align-items-center gap-2">
-                  <label class="mb-0 fw-semibold">ReUpload:</label>
-                  <input
-                    type="file"
-                    (change)="onReupload($event, doc)"
-                    class="form-control form-control-sm"
-                    style="max-width: 200px;"
-                  />
-                </div>
-              </div>
+              <!-- Download -->
+              <button class="btn btn-sm btn-outline-success me-2" (click)="downloadFile(doc.documentId, doc.fileName)">
+                <i class="bi bi-download"></i>
+              </button>
+            </td>
+            <td>
+              <!-- Reupload -->
+              <!--                 
+                  <input type="file" (change)="onReupload($event, doc)" class="form-control form-control-sm"
+                    style="max-width: 200px;" />
+                -->
+             <!-- Hidden file input -->
+<input #reuploadInput type="file" hidden (change)="onReupload($event, doc)" accept=".pdf,.jpg,.jpeg,.png" />
+
+<!-- Button -->
+<button type="button"  class="btn btn-sm btn-primary d-flex align-items-center"
+        (click)="reuploadInput.click()">
+  <i class="bi bi-upload me-1"></i> Re-upload
+</button>
+
+
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+
 </div>

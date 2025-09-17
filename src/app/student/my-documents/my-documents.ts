@@ -81,8 +81,11 @@ import { ProfileService } from '../../services/profile-service';
 })
 export class MyDocuments {
   documents: any[] = [];
+  pendingDocs: any[] = [];
+  approvedDocs: any[] = [];
+  rejectedDocs: any[] = [];
 
-  constructor(private docService: DocumentService, private toastr: ToastrService, private profileService: ProfileService) {}
+  constructor(private docService: DocumentService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.loadDocuments();
@@ -91,21 +94,18 @@ export class MyDocuments {
   loadDocuments() {
     this.docService.getStudentDocuments().subscribe({
       next: res => {
-        this.documents = res.map((doc: any) => ({
-          documentId: doc.documentId,
-          documentTypeId: doc.documentTypeId,  // ✅ explicitly copy
-          documentTypeName: doc.documentTypeName,
-          statusName: doc.statusName,
-          remarks: doc.remarks,
-          fileName: doc.fileName,
-          showReupload: doc.statusName === 'Rejected'
-        }))
+        this.documents = res;
+
+        // Split documents by status
+        this.pendingDocs = this.documents.filter(d => d.statusName === 'Pending');
+        this.approvedDocs = this.documents.filter(d => d.statusName === 'Approved');
+        this.rejectedDocs = this.documents.filter(d => d.statusName === 'Rejected');
       },
       error: err => console.error('Error loading documents', err)
     });
   }
 
-  viewFile(docId: number, fileName: string) {
+  downloadFile(docId: number, fileName: string) {
     this.docService.downloadDocument(docId).subscribe(blob => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -116,38 +116,25 @@ export class MyDocuments {
     });
   }
 
+  
+
   onReupload(event: any, doc: any) {
     const file = event.target.files[0];
     if (!file) return;
-  
-    console.log("Uploading for doc:", doc); // ✅ Check that documentTypeId is here
-  
-    const formData = new FormData();
-    formData.append('file', file);
-  
-    if (doc.documentTypeId) {
-      formData.append('documentTypeId', doc.documentTypeId.toString());
-      console.log("Sent documentTypeId:", doc.documentTypeId);
-    } else {
-      this.toastr.error("Missing document type ID");
-      return;
-    }
-  
-    this.profileService.uploadDocument(formData).subscribe({
-      next: (res: any) => {
-        this.toastr.success(res.message || 'File uploaded successfully');
-        doc.showReupload = false;
+
+    this.docService.reuploadDocument(doc.documentId, file).subscribe({
+      next: () => {
+        this.toastr.success('File re-uploaded successfully');
+
+        // Move doc from rejected → pending
+        this.rejectedDocs = this.rejectedDocs.filter(d => d.documentId !== doc.documentId);
         doc.statusName = 'Pending';
         doc.remarks = null;
+        this.pendingDocs.push(doc);
       },
-      error: (err) => {
-        const msg = err?.error?.message || 'Error uploading file';
-        this.toastr.error(msg);
+      error: err => {
+        this.toastr.error(err.error || 'Error re-uploading file');
       }
     });
   }
-  
-  
-  
-  
 }

@@ -12,15 +12,41 @@
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label">Institute Name:</label>
-            <input type="text" formControlName="instituteName" class="form-control shadow-sm rounded-3">
+            <input type="text"  (keypress)="onlyInstituteChars($event)" formControlName="instituteName" class="form-control shadow-sm rounded-3"
+              [ngClass]="{'is-invalid': educationForm10.get('instituteName')?.invalid && educationForm10.get('instituteName')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="educationForm10.get('instituteName')?.errors && educationForm10.get('instituteName')?.touched">
+              <div *ngIf="educationForm10.get('instituteName')?.errors?.['required']">Institute Name is required</div>
+              <div *ngIf="educationForm10.get('instituteName')?.errors?.['pattern']">
+                Only letters, numbers, spaces and common symbols (.'-&(),) are allowed
+              </div>
+              
+              <div *ngIf="educationForm10.get('instituteName')?.errors?.['maxlength']">Maximum 100 characters allowed
+              </div>
+            </div>
           </div>
           <div class="col-md-3">
             <label class="form-label">Passing Year:</label>
-            <input type="number" formControlName="passingYear" class="form-control shadow-sm rounded-3">
+            <input type="number"  (keypress)="onlyDigits($event)" formControlName="passingYear" class="form-control shadow-sm rounded-3"
+              [ngClass]="{'is-invalid': educationForm10.get('passingYear')?.invalid && educationForm10.get('passingYear')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="educationForm10.get('passingYear')?.errors && educationForm10.get('passingYear')?.touched">
+              <div *ngIf="educationForm10.get('passingYear')?.errors?.['required']">Passing Year is required</div>
+              <div *ngIf="educationForm10.get('passingYear')?.errors?.['pattern']">Must be a 4-digit year</div>
+              <div *ngIf="educationForm10.get('passingYear')?.errors?.['min']">Year cannot be before 1900</div>
+              <div *ngIf="educationForm10.get('passingYear')?.errors?.['max']">Year cannot be after 2100</div>
+            </div>
           </div>
           <div class="col-md-3">
             <label class="form-label">Marks %:</label>
-            <input type="number" formControlName="marksPercentage" class="form-control shadow-sm rounded-3">
+            <input type="number"  (keypress)="onlyDigits($event)" formControlName="marksPercentage" class="form-control shadow-sm rounded-3"
+              [ngClass]="{'is-invalid': educationForm10.get('marksPercentage')?.invalid && educationForm10.get('marksPercentage')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="educationForm10.get('marksPercentage')?.errors && educationForm10.get('marksPercentage')?.touched">
+              <div *ngIf="educationForm10.get('marksPercentage')?.errors?.['required']">Marks are required</div>
+              <div *ngIf="educationForm10.get('marksPercentage')?.errors?.['min']">Marks cannot be less than 0</div>
+              <div *ngIf="educationForm10.get('marksPercentage')?.errors?.['max']">Marks cannot exceed 100</div>
+            </div>
           </div>
         </div>
       </form>
@@ -31,39 +57,78 @@
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label">Institute Name:</label>
-            <input type="text" formControlName="instituteName" class="form-control shadow-sm rounded-3">
+            <input type="text" (keypress)="onlyInstituteChars($event)"formControlName="instituteName" class="form-control shadow-sm rounded-3"
+              [ngClass]="{'is-invalid': educationForm12.get('instituteName')?.invalid && educationForm12.get('instituteName')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="educationForm12.get('instituteName')?.errors && educationForm12.get('instituteName')?.touched">
+              <div *ngIf="educationForm12.get('instituteName')?.errors?.['required']">Institute Name is required</div>
+              <div *ngIf="educationForm12.get('instituteName')?.errors?.['pattern']">
+                Only letters, numbers, spaces and common symbols (.'-&(),) are allowed
+              </div>
+              
+              <div *ngIf="educationForm12.get('instituteName')?.errors?.['maxlength']">Maximum 100 characters allowed
+              </div>
+            </div>
           </div>
           <div class="col-md-3">
             <label class="form-label">Passing Year:</label>
-            <input type="number" formControlName="passingYear" class="form-control shadow-sm rounded-3">
+            <input type="number"  (keypress)="onlyDigits($event)" formControlName="passingYear" class="form-control shadow-sm rounded-3"
+              [ngClass]="{'is-invalid': educationForm12.get('passingYear')?.invalid && educationForm12.get('passingYear')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="educationForm12.get('passingYear')?.errors && educationForm12.get('passingYear')?.touched">
+              <div *ngIf="educationForm12.get('passingYear')?.errors?.['required']">Passing Year is required</div>
+              <div *ngIf="educationForm12.get('passingYear')?.errors?.['pattern']">Must be a 4-digit year</div>
+              <div *ngIf="educationForm12.get('passingYear')?.errors?.['min']">Year cannot be before 1900</div>
+              <div *ngIf="educationForm12.get('passingYear')?.errors?.['max']">Year cannot be after 2100</div>
+            </div>
           </div>
           <div class="col-md-3">
             <label class="form-label">Marks %:</label>
-            <input type="number" formControlName="marksPercentage" class="form-control shadow-sm rounded-3">
+            <input type="number"  (keypress)="onlyDigits($event)" formControlName="marksPercentage" class="form-control shadow-sm rounded-3"
+              [ngClass]="{'is-invalid': educationForm12.get('marksPercentage')?.invalid && educationForm12.get('marksPercentage')?.touched}">
+            <div class="invalid-feedback"
+              *ngIf="educationForm12.get('marksPercentage')?.errors && educationForm12.get('marksPercentage')?.touched">
+              <div *ngIf="educationForm12.get('marksPercentage')?.errors?.['required']">Marks are required</div>
+              <div *ngIf="educationForm12.get('marksPercentage')?.errors?.['min']">Marks cannot be less than 0</div>
+              <div *ngIf="educationForm12.get('marksPercentage')?.errors?.['max']">Marks cannot exceed 100</div>
+            </div>
           </div>
         </div>
       </form>
 
       <!-- Buttons -->
       <div class="d-flex justify-content-between mt-4">
-        <!-- Back button (left) -->
-        <button type="button" class="btn btn-secondary px-4 shadow-sm" [routerLink]="['/student/profile']">
-          Back
-        </button>
+        <!-- Back button -->
+        <span class="d-inline-block" tabindex="0"
+          [attr.title]="(educationForm10.invalid || educationForm12.invalid || !isSaved || educationForm10.dirty || educationForm12.dirty) ? 'Please save before going back' : ''"
+          data-bs-toggle="tooltip">
+          <button type="button" class="btn btn-secondary px-4 shadow-sm" [routerLink]="['/student/profile']"
+            [disabled]="educationForm10.invalid || educationForm12.invalid || !isSaved || educationForm10.dirty || educationForm12.dirty">
+            <i class="bi bi-chevron-double-left"></i>
+          </button>
+        </span>
 
         <!-- Save & Next buttons (right) -->
         <div class="d-flex gap-2">
-          <button (click)="submitAllEducation()" class="btn btn-success px-4 shadow-sm">
-            Save
-          </button>
-          <button type="button" class="btn btn-primary px-4 shadow-sm" [routerLink]="['/student/uploadDocuments']">
-            Next
-          </button>
+          <button 
+          type="button"
+          class="btn btn-success px-4 shadow-sm"
+          (click)="submitAllEducation()"
+          [disabled]="educationForm10.invalid || educationForm12.invalid || (!educationForm10.dirty && !educationForm12.dirty)">
+          Save
+        </button>
+          <!-- Next button -->
+          <span class="d-inline-block" tabindex="0"
+            [attr.title]="(educationForm10.invalid || educationForm12.invalid || !isSaved || educationForm10.dirty || educationForm12.dirty) ? 'Please save before continuing' : ''"
+            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-container="body">
+            <button type="button" class="btn btn-primary px-4 shadow-sm" [routerLink]="['/student/uploadDocuments']"
+              [disabled]="educationForm10.invalid || educationForm12.invalid || !isSaved || educationForm10.dirty || educationForm12.dirty">
+              <i class="bi bi-chevron-double-right"></i>
+            </button>
+          </span>
+
         </div>
       </div>
-
-
-
     </div>
   </div>
 </div>

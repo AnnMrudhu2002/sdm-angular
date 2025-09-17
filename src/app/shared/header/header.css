@@ -10,4 +10,13 @@
     font-family: Arial, "Helvetica Neue", sans-serif;
     font-weight: bold;
   }
+  .admin-header {
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+  
+  .admin-header:hover {
+    color: #FFD700; /* Change to any color you like */
+  }
+  
   

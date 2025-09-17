@@ -12,8 +12,10 @@ import { EducationalDetails } from './student/educational-details/educational-de
 import { MyDocuments } from './student/my-documents/my-documents';
 import { Profile } from './student/profile/profile';
 import { UploadDocuments } from './student/upload-documents/upload-documents';
+import { ViewProfile } from './student/view-profile/view-profile';
+import { Sample } from './sample/sample';
 
-export const routes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full' },
+export const routes: Routes = [{ path: '', redirectTo: 'home', pathMatch: 'full' },
 {path: 'home', component: Home},
 {
     path: 'auth',
@@ -39,17 +41,18 @@ export const routes: Routes = [{ path: '', redirectTo: 'login', pathMatch: 'full
 {
     path: 'student',
     canActivate: [authGuard],
-    component: AdminLayout,
+    component: AdminLayout,  // you can keep this layout if same UI
     children: [
-        { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-        { path: 'profile', component: Profile },
-        { path: 'educationalDetails', component: EducationalDetails },
-        { path: 'my-documents', component: MyDocuments },
-        {path: 'uploadDocuments', component: UploadDocuments}
-
+      { path: '', redirectTo: 'profile', pathMatch: 'full' },  // redirect to profile
+      { path: 'profile', component: Profile },
+      { path: 'educationalDetails', component: EducationalDetails },
+      { path: 'my-documents', component: MyDocuments },
+      { path: 'uploadDocuments', component: UploadDocuments },
+      { path: 'view-profile', component: ViewProfile },
+      {path: 'sample', component:Sample}
 
     ]
-},
+  }, 
 
 
 { path: '**', redirectTo: 'auth/login' }

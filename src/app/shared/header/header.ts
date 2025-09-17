@@ -10,10 +10,20 @@ import { AuthService } from '../../services/auth-service';
   styleUrl: './header.css'
 })
 export class Header {
+  
+  
   constructor(private authService: AuthService, private router: Router) {}
 
   
   onLogout() {
     this.authService.logout(); // This clears sessionStorage and navigates to login
+  }
+
+  isAdmin(): boolean {
+    return this.authService.getRoles().includes('Admin');
+  }
+
+  isStudent(): boolean {
+    return this.authService.getRoles().includes('Student');
   }
 }
