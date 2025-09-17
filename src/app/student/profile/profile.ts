@@ -20,11 +20,12 @@ export class Profile {
   courses: Course[] = [];
   submissionMessage: string | null = null;
 
-  constructor(
-    private fb: FormBuilder,
-    private profileService: ProfileService,
-    private toastr: ToastrService
-  ) {}
+
+  // constructor(
+  //   private fb: FormBuilder,
+  //   private profileService: ProfileService,
+  //   private toastr: ToastrService
+  // ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -34,6 +35,14 @@ export class Profile {
   }
 
   private initForm() {
+  profileForm: FormGroup;
+  submissionMessage: string | null = null;
+  selectedFile: File | null = null;
+
+  idProofTypes: IdProofType[] = [];
+  courses: Course[] = [];
+
+  constructor(private fb: FormBuilder, private profileService: ProfileService, private toastr: ToastrService) {
     this.profileForm = this.fb.group({
       dob: ['', Validators.required],
       gender: ['', Validators.required],
@@ -107,6 +116,23 @@ export class Profile {
         if (profile) {
           if (profile.dob) {
             profile.dob = profile.dob.split('T')[0]; // for input type=date
+      pincode: ['', [Validators.required, Validators.pattern(/^\d{6}$/), Validators.maxLength(6)]],
+      idProofTypeId: [0, Validators.required],
+      idProofNumber: ['', [Validators.required, Validators.maxLength(50)]],
+      courseId: [0, Validators.required],
+    });
+    
+  }
+
+  ngOnInit() {
+    this.loadDropdowns();
+  
+    this.profileService.getProfile().subscribe({
+      next: (profile) => {
+        if (profile) {
+          console.log("Loaded profile:", profile);
+          if (profile.dob) {
+            profile.dob = profile.dob.split('T')[0];
           }
           this.profileForm.patchValue(profile);
         }

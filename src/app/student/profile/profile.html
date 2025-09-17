@@ -1,3 +1,110 @@
+<!-- <form [formGroup]="profileForm" (ngSubmit)="submitProfile()" class="p-4 border rounded bg-light shadow-sm">
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">DOB:</label>
+      <input type="date" formControlName="dob" class="form-control">
+      <div class="text-danger small" *ngIf="profileForm.get('dob')?.touched && profileForm.get('dob')?.invalid">
+        DOB is required
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Gender:</label>
+      <select formControlName="gender" class="form-select">
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Phone Number:</label>
+      <input type="text" formControlName="phoneNumber" class="form-control">
+    </div>
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Alternate Phone Number:</label>
+      <input type="text" formControlName="alternatePhoneNumber" class="form-control">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Address:</label>
+      <textarea formControlName="address" rows="2" class="form-control"></textarea>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Permanent Address:</label>
+      <textarea formControlName="permanentAddress" rows="2" class="form-control"></textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label class="form-label">City:</label>
+      <input type="text" formControlName="city" class="form-control">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">District:</label>
+      <input type="text" formControlName="district" class="form-control">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">State:</label>
+      <input type="text" formControlName="state" class="form-control">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Pincode:</label>
+      <input type="text" formControlName="pincode" class="form-control">
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Course:</label>
+      <select formControlName="courseId" class="form-select">
+          <option value="0">Select</option>
+          <option *ngFor="let course of courses" [value]="course.courseId">
+            {{ course.courseName }}
+          </option>
+        </select>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <label class="form-label">ID Proof Type:</label>
+      <select formControlName="idProofTypeId" class="form-select">
+        <option value="0">Select</option>
+        <option *ngFor="let item of idProofTypes" [value]="item.idProofTypeId">
+          {{ item.typeName }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-3">
+      <label class="form-label">ID Proof Number:</label>
+      <input type="text" formControlName="idProofNumber" class="form-control">
+    </div>
+
+  <div class="d-flex justify-content-end mt-3 gap-2">
+    <button type="submit" class="btn btn-success px-4">
+      Save
+    </button>
+    <button type="button" class="btn btn-primary px-4" [routerLink]="['/student/educationalDetails']">
+      Next
+    </button>
+  </div>
+
+  <div class="mt-2 text-success fw-semibold">
+    {{ submissionMessage }}
+  </div>
+</form> -->
+
+
+
 <div class="container my-4">
   <!-- Form Card -->
   <div class="card profile-card shadow-lg border-0 rounded-4">
@@ -85,6 +192,11 @@
 <div *ngIf="profileForm.get('pincode')?.errors?.['pattern']">Enter a valid 6-digit pincode</div>
 
           </div>
+          <input type="text" formControlName="state" class="form-control shadow-sm rounded-3">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Pincode:</label>
+          <input type="text" formControlName="pincode" class="form-control shadow-sm rounded-3">
         </div>
         <div class="col-md-3">
           <label class="form-label">Course:</label>
@@ -124,6 +236,9 @@
         </div>
       </div>
       
+          <input type="text" formControlName="idProofNumber" class="form-control shadow-sm rounded-3">
+        </div>
+      </div>
 
       <!-- Buttons -->
       <div class="d-flex justify-content-end mt-4 gap-2">

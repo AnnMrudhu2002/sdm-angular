@@ -57,4 +57,45 @@ export class RegistrationRequest {
     
   }
 
+
+  // approveRejectStudent(userId: string, isApproved: boolean): void {
+  //   // console.log("Approving/Rejecting userId:", userId, "isApproved:", isApproved);
+
+
+  //   this.studentService.approveRejectStudents(userId, isApproved).subscribe({
+  //     next: (res) => {
+  //       this.loadPendingStudents();
+  //       // this.cdr.detectChanges();
+  //       // this.pendingStudents = this.pendingStudents.filter(s => s.id !== userId);
+  //       this.toastr.success('Successfully updated student status');
+
+  //     },
+  //     // error: (err) => {
+  //     //   // console.error("Error updating student status:", err);
+  //     //   // this.toastr.error('Failed to update student status');
+  //     //   const msg = err?.error?.message 
+  //     //   this.toastr.error(msg);
+  //     // }
+  //     error: (err) => {
+  //       // console.error("Error updating student status:", err);
+      
+  //       let msg = "Failed to update student status";
+      
+  //       if (typeof err?.error === 'string') {
+  //         msg = err.error;  // if backend sends plain string
+  //         this.toastr.error(msg);
+  //       } else if (err?.error?.message) {
+  //         msg = err.error.message;  // if backend sends { message: "..." }
+  //         this.toastr.success(msg);
+          
+
+  //       }
+      
+  //     }
+      
+  //   });
+  // }
+
+
+  
 }

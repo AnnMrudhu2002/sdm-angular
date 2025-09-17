@@ -25,11 +25,12 @@ export interface StudentProfileResponse {
 }
 
 export interface StudentEducationDto {
-  educationLevel: string;
+  educationLevel: string; 
   instituteName: string;
   passingYear: number;
   marksPercentage: number;
 }
+
 
 export interface StudentEducationResponse {
   message: string;

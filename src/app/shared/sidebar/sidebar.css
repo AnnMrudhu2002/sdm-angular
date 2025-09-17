@@ -6,7 +6,8 @@
   
  
   .sidebar .nav-link:hover {
-    background-color: #dadddf;
+     background-color: #dadddf; 
+    /* background-color: #cdcfd0; */
     color: #fff;
     text-decoration: none;
   }
@@ -14,6 +15,7 @@
 
   .sidebar .nav-link.active {
     background-color: #dadddf; 
+    /* background-color: #cdcfd0;  */
     color: #fff;
     font-weight: 600;
   }
